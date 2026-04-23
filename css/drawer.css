@@ -1,0 +1,659 @@
+/* =============================================
+   CAMPAMENTO ONAWA — Premium Paper Brochure Menu
+   White paper, elegant typography, realistic depth
+   ============================================= */
+
+/* ── Custom Props ──────────────────────────── */
+:root {
+    --paper-white: #ffffff;
+    --paper-off: #f9f9f7;
+    --paper-edge: #f0efe9;
+    --ink-dark: #1a1e22;
+    --ink-medium: #37404a;
+    --ink-light: #5f6872;
+    --ink-faded: #8b939d;
+    --accent-brown: #8B6944;
+    --accent-green: #3d8b5e;
+    --accent-red: #c25744;
+    --drawer-width: 380px;
+    --drawer-ease: cubic-bezier(0.33, 1, 0.68, 1);
+    --drawer-ease-out: cubic-bezier(0.16, 1, 0.3, 1);
+}
+
+/* ── Backdrop / Overlay ────────────────────── */
+.drawer-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 9990;
+    background: rgba(0, 0, 0, 0);
+    backdrop-filter: blur(0px);
+    -webkit-backdrop-filter: blur(0px);
+    pointer-events: none;
+    transition: background 0.45s var(--drawer-ease), backdrop-filter 0.45s var(--drawer-ease);
+}
+
+.drawer-overlay.active {
+    background: rgba(0, 0, 0, 0.45);
+    backdrop-filter: blur(8px);
+    -webkit-backdrop-filter: blur(8px);
+    pointer-events: auto;
+}
+
+/* ── Drawer Container ──────────────────────── */
+.drawer {
+    position: fixed;
+    top: 0;
+    right: 0;
+    width: var(--drawer-width);
+    height: 100vh;
+    z-index: 9991;
+    pointer-events: none;
+    perspective: 1400px;
+    display: flex;
+    align-items: stretch;
+    justify-content: center;
+    padding: 1rem 1rem 1rem 0;
+}
+
+/* ── Paper Panel — Pergamino / mapa del tesoro refinado ──── */
+.drawer__paper {
+    position: relative;
+    width: 100%;
+    max-width: 100%;
+    max-height: calc(100vh - 2rem);
+    overflow-y: auto;
+    -webkit-overflow-scrolling: touch;
+    pointer-events: auto;
+    transform-origin: right center;
+    overflow-x: hidden;
+    border-radius: 6px;
+    border: 1px solid rgba(0, 0, 0, 0.04);
+
+    /* Initially folded — animación de apertura suave */
+    transform: scaleX(0) scaleY(0.96) rotateY(-6deg);
+    opacity: 0;
+    transition:
+        transform 0.5s var(--drawer-ease),
+        opacity 0.4s var(--drawer-ease);
+
+    /* Papel tipo pergamino: base cálida y limpia */
+    background:
+        radial-gradient(ellipse at 0% 0%, rgba(0, 0, 0, 0.015) 0%, transparent 45%),
+        radial-gradient(ellipse at 100% 100%, rgba(0, 0, 0, 0.01) 0%, transparent 40%),
+        radial-gradient(ellipse at 25% 15%, rgba(250, 248, 244, 0.6) 0%, transparent 55%),
+        radial-gradient(ellipse at 75% 85%, rgba(248, 246, 242, 0.4) 0%, transparent 50%),
+        linear-gradient(178deg, #fefefd 0%, #fcfbf9 35%, #faf9f6 70%, #fbfaf8 100%);
+
+    /* Sombras en capas para profundidad y elegancia */
+    box-shadow:
+        0 1px 2px rgba(0, 0, 0, 0.04),
+        0 4px 12px rgba(0, 0, 0, 0.06),
+        0 12px 32px rgba(0, 0, 0, 0.08),
+        0 24px 56px rgba(0, 0, 0, 0.06),
+        inset 0 1px 0 rgba(255, 255, 255, 0.95),
+        inset 0 -1px 0 rgba(0, 0, 0, 0.02);
+
+}
+
+/* Textura de fibra de papel — muy sutil */
+.drawer__paper::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 1;
+    pointer-events: none;
+    opacity: 0.05;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='1.1' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    background-size: 200px 200px;
+    mix-blend-mode: multiply;
+}
+
+/* Línea de pliegue sutil (efecto brochure) */
+.drawer__paper::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(180deg,
+        transparent 49.2%,
+        rgba(0, 0, 0, 0.02) 49.8%,
+        rgba(255, 255, 255, 0.4) 50%,
+        rgba(0, 0, 0, 0.018) 50.2%,
+        transparent 50.8%);
+}
+
+/* Esquina inferior izquierda ligeramente curvada (estilo pergamino) */
+.drawer__paper {
+    clip-path: polygon(
+        0% 0%, 100% 0%, 100% 100%,
+        2.5% 100%, 0.8% 99.2%, 0% 97.5%, 0% 0%
+    );
+}
+
+/* OPEN state */
+.drawer.open .drawer__paper {
+    transform: scaleX(1) scaleY(1) rotateY(0deg);
+    opacity: 1;
+}
+
+/* ── Content Wrapper ───────────────────────── */
+.drawer__content {
+    position: relative;
+    z-index: 3;
+    padding: 1.75rem 1.75rem 1.5rem;
+    opacity: 0;
+    transform: translateY(8px);
+    transition: opacity 0.4s var(--drawer-ease) 0.25s, transform 0.45s var(--drawer-ease) 0.25s;
+}
+
+.drawer.open .drawer__content {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+/* ── Topographic bg (líneas tipo mapa) ─────── */
+.drawer__topo {
+    position: absolute;
+    inset: 0;
+    z-index: 0;
+    pointer-events: none;
+    overflow: hidden;
+    opacity: 0.04;
+}
+
+.drawer__topo svg {
+    width: 100%;
+    height: 100%;
+}
+
+/* ── Header — Título del menú ───────────────── */
+.drawer__header {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid rgba(0, 0, 0, 0.07);
+    position: relative;
+}
+
+.drawer__logo {
+    width: 50px;
+    height: 50px;
+    flex-shrink: 0;
+    object-fit: contain;
+    border-radius: 10px;
+    filter: drop-shadow(0 2px 8px rgba(0, 0, 0, 0.06));
+}
+
+.drawer__header-text {
+    flex: 1;
+    min-width: 0;
+}
+
+.drawer__map-title {
+    font-family: var(--font-heading);
+    font-size: 1.4rem;
+    font-weight: 600;
+    color: var(--ink-dark);
+    line-height: 1.2;
+    letter-spacing: -0.01em;
+}
+
+.drawer__map-subtitle {
+    font-family: var(--font-body);
+    font-size: 0.7rem;
+    color: var(--ink-light);
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    margin-top: 0.25rem;
+    font-weight: 500;
+}
+
+/* ── Close Button ───────────────────────────── */
+.drawer__close {
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    z-index: 10;
+    width: 36px;
+    height: 36px;
+    border: none;
+    background: rgba(0, 0, 0, 0.04);
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.25s ease, transform 0.3s var(--drawer-ease);
+}
+
+.drawer__close:hover {
+    background: rgba(0, 0, 0, 0.08);
+    transform: scale(1.08);
+}
+
+.drawer__close:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--ink-light);
+}
+
+.drawer__close svg {
+    width: 14px;
+    height: 14px;
+    stroke: var(--ink-light);
+    stroke-width: 2;
+    fill: none;
+}
+
+.drawer__close:hover svg {
+    stroke: var(--ink-dark);
+}
+
+/* ══════════════════════════════════════════════
+   MENU NAVIGATION — Items tipo pistas del mapa
+   ══════════════════════════════════════════════ */
+.drawer__clues {
+    margin-top: 0.15rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.25rem;
+}
+
+/* Colores por tipo de sección */
+.drawer__clue[data-color="amber"] { --clue-color: #b8732a; --clue-bg: rgba(184, 115, 42, 0.07); }
+.drawer__clue[data-color="green"] { --clue-color: #2d8a55; --clue-bg: rgba(45, 138, 85, 0.07); }
+.drawer__clue[data-color="blue"]  { --clue-color: #3a73b5; --clue-bg: rgba(58, 115, 181, 0.07); }
+.drawer__clue[data-color="coral"] { --clue-color: #c94e3a; --clue-bg: rgba(201, 78, 58, 0.07); }
+.drawer__clue[data-color="gold"]  { --clue-color: #a07d28; --clue-bg: rgba(160, 125, 40, 0.07); }
+
+.drawer__clue {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    padding: 0.7rem 1rem;
+    text-decoration: none;
+    border-radius: 12px;
+    border-left: 3px solid transparent;
+    transition: background 0.28s ease, border-color 0.28s ease, transform 0.35s var(--drawer-ease);
+    cursor: pointer;
+    position: relative;
+    min-height: 48px;
+}
+
+.drawer__clue:hover {
+    background: var(--clue-bg, rgba(0, 0, 0, 0.04));
+    border-left-color: var(--clue-color);
+    transform: translateX(5px);
+}
+
+.drawer__clue:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 2px var(--clue-color);
+}
+
+/* Icono — estilo sello/pista */
+.drawer__clue-icon {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    background: var(--clue-bg, rgba(0, 0, 0, 0.04));
+    border: 1px solid rgba(0, 0, 0, 0.05);
+    color: var(--clue-color);
+    transition: background 0.28s ease, transform 0.35s var(--drawer-ease);
+}
+
+.drawer__clue-icon svg {
+    width: 20px;
+    height: 20px;
+    stroke-width: 1.8;
+}
+
+.drawer__clue:hover .drawer__clue-icon {
+    background: color-mix(in srgb, var(--clue-color) 14%, white);
+    border-color: color-mix(in srgb, var(--clue-color) 25%, transparent);
+    transform: scale(1.06);
+}
+
+/* Texto principal y hint */
+.drawer__clue-text {
+    font-family: var(--font-heading);
+    font-size: 1.12rem;
+    color: var(--ink-dark);
+    line-height: 1.25;
+    font-weight: 600;
+    letter-spacing: 0.01em;
+    transition: color 0.25s ease;
+}
+
+.drawer__clue-hint {
+    font-family: var(--font-body);
+    font-size: 0.72rem;
+    color: var(--ink-faded);
+    display: block;
+    margin-top: 0.22rem;
+    font-weight: 400;
+    letter-spacing: 0.02em;
+    line-height: 1.4;
+}
+
+.drawer__clue:hover .drawer__clue-text {
+    color: var(--clue-color);
+}
+
+.drawer__clue.active {
+    border-left-color: var(--clue-color);
+    background: var(--clue-bg, rgba(0, 0, 0, 0.04));
+}
+
+.drawer__clue.active .drawer__clue-text {
+    color: var(--clue-color);
+}
+
+.drawer__clue.active .drawer__clue-icon {
+    background: var(--clue-color);
+    border-color: var(--clue-color);
+    color: white;
+}
+
+/* Animación de entrada en cascada */
+.drawer__clue {
+    opacity: 0;
+}
+
+@keyframes clueSlideIn {
+    from {
+        opacity: 0;
+        transform: translateY(10px);
+    }
+    to {
+        opacity: 1;
+        transform: translateY(0);
+    }
+}
+
+.drawer.open .drawer__clue:nth-child(1) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.3s; }
+.drawer.open .drawer__clue:nth-child(2) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.38s; }
+.drawer.open .drawer__clue:nth-child(3) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.46s; }
+.drawer.open .drawer__clue:nth-child(4) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.54s; }
+.drawer.open .drawer__clue:nth-child(5) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.62s; }
+.drawer.open .drawer__clue:nth-child(6) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.7s; }
+.drawer.open .drawer__clue:nth-child(7) { animation: clueSlideIn 0.4s var(--drawer-ease) forwards 0.78s; }
+
+/* ── Footer — Coordenadas y sello ────────────── */
+.drawer__footer {
+    margin-top: 1rem;
+    padding-top: 0.9rem;
+    border-top: 1px solid rgba(0, 0, 0, 0.06);
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.drawer__coords {
+    font-family: var(--font-body);
+    font-size: 0.68rem;
+    color: var(--ink-faded);
+    letter-spacing: 0.06em;
+    line-height: 1.6;
+}
+
+.drawer__stamp {
+    width: 44px;
+    height: 44px;
+    border: 1.5px solid var(--accent-green);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0.4;
+    transform: rotate(-10deg);
+}
+
+.drawer__stamp-text {
+    font-family: var(--font-heading);
+    font-size: 0.46rem;
+    color: var(--accent-green);
+    text-transform: uppercase;
+    font-weight: 600;
+    text-align: center;
+    line-height: 1.2;
+    letter-spacing: 0.08em;
+}
+
+/* ══════════════════════════════════════════════
+   TOGGLE — Brújula (abrir menú)
+   ══════════════════════════════════════════════ */
+.drawer-toggle {
+    position: fixed;
+    top: 1rem;
+    right: 1rem;
+    z-index: 9992;
+    width: 52px;
+    height: 52px;
+    border: none;
+    border-radius: 50%;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0;
+    background: transparent;
+    transition: transform 0.4s var(--drawer-ease), opacity 0.35s ease;
+}
+
+.drawer-toggle:hover {
+    transform: scale(1.1) rotate(15deg);
+}
+
+.drawer-toggle:active {
+    transform: scale(0.95);
+}
+
+.drawer-toggle:focus-visible {
+    outline: none;
+    box-shadow: 0 0 0 3px rgba(212, 145, 58, 0.4);
+}
+
+.drawer-toggle.active {
+    opacity: 0;
+    pointer-events: none;
+    transform: scale(0.6);
+}
+
+.drawer-toggle__img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+    border-radius: 50%;
+    filter: drop-shadow(0 3px 12px rgba(0, 0, 0, 0.35));
+    transition: filter 0.3s ease;
+}
+
+.drawer-toggle:hover .drawer-toggle__img {
+    filter: drop-shadow(0 5px 18px rgba(0, 0, 0, 0.45));
+}
+
+/* ── Responsive: tablet y móvil ─────────────── */
+@media (max-width: 768px) {
+    .drawer {
+        width: 100%;
+        max-width: 360px;
+        margin-left: auto;
+        padding: 1rem 1rem 1rem 0.75rem;
+    }
+
+    .drawer__paper {
+        max-height: 88vh;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
+    }
+
+    .drawer__content {
+        padding: 2rem 1.6rem 1.5rem;
+    }
+
+    .drawer__header {
+        margin-bottom: 1.5rem;
+        padding-bottom: 1.1rem;
+    }
+
+    .drawer__map-title {
+        font-size: 1.3rem;
+    }
+
+    .drawer__map-subtitle {
+        font-size: 0.68rem;
+    }
+
+    .drawer__clues {
+        gap: 0.35rem;
+    }
+
+    .drawer__clue {
+        min-height: 52px;
+        padding: 0.9rem 1rem;
+    }
+
+    .drawer__close {
+        width: 40px;
+        height: 40px;
+        top: 0.85rem;
+        right: 0.85rem;
+    }
+
+    .drawer-toggle {
+        width: 48px;
+        height: 48px;
+        top: 0.85rem;
+        right: 0.85rem;
+    }
+}
+
+@media (max-width: 480px) {
+    .drawer {
+        max-width: 100%;
+        padding: 0.75rem;
+    }
+
+    .drawer__paper {
+        max-height: 90vh;
+        border-radius: 8px;
+    }
+
+    .drawer__content {
+        padding: 1.75rem 1.35rem 1.35rem;
+    }
+
+    .drawer__logo {
+        width: 44px;
+        height: 44px;
+    }
+
+    .drawer__map-title {
+        font-size: 1.2rem;
+    }
+
+    .drawer__map-subtitle {
+        font-size: 0.65rem;
+        letter-spacing: 0.15em;
+    }
+
+    .drawer__clue {
+        min-height: 56px;
+        padding: 1rem 1.1rem;
+        gap: 1rem;
+    }
+
+    .drawer__clue-text {
+        font-size: 1.08rem;
+    }
+
+    .drawer__clue-hint {
+        font-size: 0.7rem;
+    }
+
+    .drawer__clue-icon {
+        width: 44px;
+        height: 44px;
+    }
+
+    .drawer__clue-icon svg {
+        width: 20px;
+        height: 20px;
+    }
+
+    .drawer__footer {
+        margin-top: 1.5rem;
+        padding-top: 1rem;
+    }
+
+    .drawer__coords {
+        font-size: 0.65rem;
+    }
+}
+
+@media (min-width: 769px) {
+    .drawer {
+        width: var(--drawer-width);
+        max-width: var(--drawer-width);
+    }
+
+    /* En laptop a 100% de zoom, reducir tamaños para que todo quepa sin scroll */
+    @media (max-height: 800px) {
+        .drawer__content {
+            padding: 1.25rem 1.75rem 1.1rem;
+        }
+
+        .drawer__header {
+            margin-bottom: 0.9rem;
+            padding-bottom: 0.8rem;
+        }
+
+        .drawer__logo {
+            width: 40px;
+            height: 40px;
+        }
+
+        .drawer__map-title {
+            font-size: 1.2rem;
+        }
+
+        .drawer__clues {
+            gap: 0.1rem;
+        }
+
+        .drawer__clue {
+            min-height: 42px;
+            padding: 0.55rem 1rem;
+        }
+
+        .drawer__clue-icon {
+            width: 36px;
+            height: 36px;
+        }
+
+        .drawer__clue-icon svg {
+            width: 17px;
+            height: 17px;
+        }
+
+        .drawer__clue-text {
+            font-size: 1rem;
+        }
+
+        .drawer__clue-hint {
+            font-size: 0.68rem;
+        }
+
+        .drawer__footer {
+            margin-top: 0.7rem;
+            padding-top: 0.7rem;
+        }
+    }
+}
