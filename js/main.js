@@ -1,4 +1,4 @@
-/* =============================================
+﻿/* =============================================
    CAMPAMENTO ONAWA — Main JavaScript V3
    Pure JS — No external libraries
    Starfield (scoped), Lamp Cursor, Random Hero,
