@@ -1,4 +1,4 @@
-﻿/* =============================================
+/* =============================================
    CAMPAMENTO ONAWA — V4 Cinematic Design
    Clean palette, brochure menu, artisanal timeline
    ============================================= */
@@ -2263,6 +2263,25 @@ a {
 @keyframes crossfadeSlide4 {
     0%, 20% { opacity: 1; z-index: 2; }
     25%, 95% { opacity: 0; z-index: 0; }
+    100% { opacity: 1; z-index: 2; }
+}
+
+/* Modifiers for 5 slides */
+.experiences__card--5slides {
+    background: #0D1114;
+}
+.experiences__card--5slides .experiences__slide {
+    animation: crossfadeSlide5 25s ease-in-out infinite;
+}
+.experiences__card--5slides .experiences__slide:nth-child(1) { animation-delay: 0s; }
+.experiences__card--5slides .experiences__slide:nth-child(2) { animation-delay: 5s; }
+.experiences__card--5slides .experiences__slide:nth-child(3) { animation-delay: 10s; }
+.experiences__card--5slides .experiences__slide:nth-child(4) { animation-delay: 15s; }
+.experiences__card--5slides .experiences__slide:nth-child(5) { animation-delay: 20s; }
+
+@keyframes crossfadeSlide5 {
+    0%, 16% { opacity: 1; z-index: 2; }
+    20%, 96% { opacity: 0; z-index: 0; }
     100% { opacity: 1; z-index: 2; }
 }
 
