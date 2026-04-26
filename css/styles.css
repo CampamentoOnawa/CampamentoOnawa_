@@ -1,4 +1,4 @@
-/* =============================================
+﻿/* =============================================
    CAMPAMENTO ONAWA — V4 Cinematic Design
    Clean palette, brochure menu, artisanal timeline
    ============================================= */
@@ -2207,11 +2207,10 @@ a {
 
 /* =============================================
    EXPERIENCES SLIDE ANIMATIONS
+   Modelo: slot=7s | fade-in=1.5s | visible=4s | fade-out=1.5s
+   El fade-out se solapa con el fade-in del siguiente (crossfade real).
+   Ciclo total = N x 7s. Todas las fotos se muestran garantizadamente.
    ============================================= */
-.experiences__card--3slides,
-.experiences__card--2slides {
-    background: #0D1114;
-}
 
 .experiences__slide {
     position: absolute;
@@ -2219,70 +2218,77 @@ a {
     width: 100%;
     height: 100%;
     opacity: 0;
+    will-change: opacity;
 }
 
-/* Modifiers for 3 slides */
-.experiences__card--3slides .experiences__slide {
-    animation: crossfadeSlide3 15s ease-in-out infinite;
-}
-.experiences__card--3slides .experiences__slide:nth-child(1) { animation-delay: 0s; }
-.experiences__card--3slides .experiences__slide:nth-child(2) { animation-delay: 5s; }
-.experiences__card--3slides .experiences__slide:nth-child(3) { animation-delay: 10s; }
-
-/* Modifiers for 2 slides */
+/* --- 2 slides  ciclo=14s  slot=7s ----------------------------------- */
+.experiences__card--2slides { background: #0D1114; }
 .experiences__card--2slides .experiences__slide {
-    animation: crossfadeSlide2 10s ease-in-out infinite;
+    animation: cfSlide2 14s linear infinite;
 }
-.experiences__card--2slides .experiences__slide:nth-child(1) { animation-delay: 0s; }
-.experiences__card--2slides .experiences__slide:nth-child(2) { animation-delay: 5s; }
+.experiences__card--2slides .experiences__slide:nth-child(1) { animation-delay:  0s; }
+.experiences__card--2slides .experiences__slide:nth-child(2) { animation-delay:  7s; }
 
-@keyframes crossfadeSlide3 {
-    0%, 25% { opacity: 1; z-index: 2; }
-    33%, 92% { opacity: 0; z-index: 0; }
-    100% { opacity: 1; z-index: 2; }
-}
-
-@keyframes crossfadeSlide2 {
-    0%, 40% { opacity: 1; z-index: 2; }
-    50%, 90% { opacity: 0; z-index: 0; }
-    100% { opacity: 1; z-index: 2; }
+@keyframes cfSlide2 {
+    0%      { opacity: 0; }
+    10.71%  { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    39.28%  { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    60.71%  { opacity: 0; }
+    100%    { opacity: 0; }
 }
 
-/* Modifiers for 4 slides */
-.experiences__card--4slides {
-    background: #0D1114;
+/* --- 3 slides  ciclo=21s  slot=7s ----------------------------------- */
+.experiences__card--3slides { background: #0D1114; }
+.experiences__card--3slides .experiences__slide {
+    animation: cfSlide3 21s linear infinite;
 }
+.experiences__card--3slides .experiences__slide:nth-child(1) { animation-delay:  0s; }
+.experiences__card--3slides .experiences__slide:nth-child(2) { animation-delay:  7s; }
+.experiences__card--3slides .experiences__slide:nth-child(3) { animation-delay: 14s; }
+
+@keyframes cfSlide3 {
+    0%      { opacity: 0; }
+    7.14%   { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    26.19%  { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    40.47%  { opacity: 0; }
+    100%    { opacity: 0; }
+}
+
+/* --- 4 slides  ciclo=28s  slot=7s ----------------------------------- */
+.experiences__card--4slides { background: #0D1114; }
 .experiences__card--4slides .experiences__slide {
-    animation: crossfadeSlide4 20s ease-in-out infinite;
+    animation: cfSlide4 28s linear infinite;
 }
-.experiences__card--4slides .experiences__slide:nth-child(1) { animation-delay: 0s; }
-.experiences__card--4slides .experiences__slide:nth-child(2) { animation-delay: 5s; }
-.experiences__card--4slides .experiences__slide:nth-child(3) { animation-delay: 10s; }
-.experiences__card--4slides .experiences__slide:nth-child(4) { animation-delay: 15s; }
+.experiences__card--4slides .experiences__slide:nth-child(1) { animation-delay:  0s; }
+.experiences__card--4slides .experiences__slide:nth-child(2) { animation-delay:  7s; }
+.experiences__card--4slides .experiences__slide:nth-child(3) { animation-delay: 14s; }
+.experiences__card--4slides .experiences__slide:nth-child(4) { animation-delay: 21s; }
 
-@keyframes crossfadeSlide4 {
-    0%, 20% { opacity: 1; z-index: 2; }
-    25%, 95% { opacity: 0; z-index: 0; }
-    100% { opacity: 1; z-index: 2; }
+@keyframes cfSlide4 {
+    0%      { opacity: 0; }
+    5.36%   { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    19.64%  { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    30.36%  { opacity: 0; }
+    100%    { opacity: 0; }
 }
 
-/* Modifiers for 5 slides */
-.experiences__card--5slides {
-    background: #0D1114;
-}
+/* --- 5 slides  ciclo=35s  slot=7s ----------------------------------- */
+.experiences__card--5slides { background: #0D1114; }
 .experiences__card--5slides .experiences__slide {
-    animation: crossfadeSlide5 25s ease-in-out infinite;
+    animation: cfSlide5 35s linear infinite;
 }
-.experiences__card--5slides .experiences__slide:nth-child(1) { animation-delay: 0s; }
-.experiences__card--5slides .experiences__slide:nth-child(2) { animation-delay: 5s; }
-.experiences__card--5slides .experiences__slide:nth-child(3) { animation-delay: 10s; }
-.experiences__card--5slides .experiences__slide:nth-child(4) { animation-delay: 15s; }
-.experiences__card--5slides .experiences__slide:nth-child(5) { animation-delay: 20s; }
+.experiences__card--5slides .experiences__slide:nth-child(1) { animation-delay:  0s; }
+.experiences__card--5slides .experiences__slide:nth-child(2) { animation-delay:  7s; }
+.experiences__card--5slides .experiences__slide:nth-child(3) { animation-delay: 14s; }
+.experiences__card--5slides .experiences__slide:nth-child(4) { animation-delay: 21s; }
+.experiences__card--5slides .experiences__slide:nth-child(5) { animation-delay: 28s; }
 
-@keyframes crossfadeSlide5 {
-    0%, 16% { opacity: 1; z-index: 2; }
-    20%, 96% { opacity: 0; z-index: 0; }
-    100% { opacity: 1; z-index: 2; }
+@keyframes cfSlide5 {
+    0%      { opacity: 0; }
+    4.29%   { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    15.71%  { opacity: 1; animation-timing-function: cubic-bezier(0.4, 0, 0.2, 1); }
+    24.29%  { opacity: 0; }
+    100%    { opacity: 0; }
 }
 
 .experiences__card:hover .experiences__card-overlay p {
